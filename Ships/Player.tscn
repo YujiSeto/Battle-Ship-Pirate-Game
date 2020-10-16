@@ -1,0 +1,52 @@
+[gd_scene load_steps=6 format=2]
+
+[ext_resource path="res://Ships/Ship.tscn" type="PackedScene" id=1]
+[ext_resource path="res://assets/Spritesheet/shipsMiscellaneous_sheet.png" type="Texture" id=2]
+[ext_resource path="res://Ships/Player.gd" type="Script" id=3]
+[ext_resource path="res://bullets/PlayerBullet.tscn" type="PackedScene" id=4]
+
+[sub_resource type="RectangleShape2D" id=1]
+extents = Vector2( 15.4903, 50.0915 )
+
+[node name="Player" instance=ExtResource( 1 )]
+position = Vector2( -0.374573, -0.374577 )
+rotation = 0.000265746
+collision_layer = 2147483650
+collision_mask = 2147483653
+script = ExtResource( 3 )
+Bullet = ExtResource( 4 )
+speed = 150
+rotation_speed = 1.0
+gun_cooldown = 0.4
+health = 100
+
+[node name="Body" parent="." index="0"]
+position = Vector2( 0.111023, -0.0265102 )
+rotation = -1.5708
+texture = ExtResource( 2 )
+region_enabled = true
+region_rect = Rect2( 408, 0, 66, 113 )
+
+[node name="CollisionShape2D" parent="." index="1"]
+rotation = -1.5708
+shape = SubResource( 1 )
+
+[node name="Turret" parent="." index="2"]
+position = Vector2( 31.8757, -0.384594 )
+texture = ExtResource( 2 )
+offset = Vector2( 5, 0 )
+region_enabled = true
+region_rect = Rect2( 439, 496, 20, 12 )
+
+[node name="Muzzle" parent="Turret" index="0"]
+position = Vector2( 25, 0 )
+rotation = -0.00483941
+
+[node name="Camera2D" type="Camera2D" parent="." index="4"]
+current = true
+zoom = Vector2( 1.4, 1.4 )
+limit_left = -100000
+limit_top = -100000
+limit_right = 1000000
+limit_bottom = 1000000
+[connection signal="timeout" from="GunTimer" to="." method="_on_GunTimer_timeout"]
