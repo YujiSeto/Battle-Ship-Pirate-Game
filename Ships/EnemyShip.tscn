@@ -14,7 +14,7 @@ collision_mask = 2147483651
 script = ExtResource( 3 )
 Bullet = ExtResource( 4 )
 gun_cooldown = 0.5
-health = 100
+max_health = 50
 turret_speed = 100.0
 detect_radius = 500
 
