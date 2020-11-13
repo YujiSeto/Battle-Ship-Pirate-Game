@@ -61,5 +61,5 @@ max_speed = 150
 [connection signal="health_changed" from="Player" to="HUD" method="update_healthbar"]
 [connection signal="shoot" from="Player" to="." method="_on_Ship_shoot"]
 [connection signal="shoot" from="Paths/Path2D/PathFollow2D/EnemyShip" to="." method="_on_Ship_shoot"]
-[connection signal="shoot" from="Paths/Path2D2/PathFollow2D/EnemyShip" to="." method="_on_EnemyShip_shoot"]
 [connection signal="shoot" from="Paths/Path2D2/PathFollow2D/EnemyShip" to="." method="_on_Ship_shoot"]
+[connection signal="shoot" from="Paths/Path2D2/PathFollow2D/EnemyShip" to="." method="_on_EnemyShip_shoot"]
