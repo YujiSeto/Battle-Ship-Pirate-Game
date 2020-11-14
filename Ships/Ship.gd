@@ -8,6 +8,7 @@ export (int) var max_speed
 export (float) var rotation_speed
 export (float) var gun_cooldown
 export (int) var max_health
+export (int) var max_bullets
 
 var velocity = Vector2()
 var can_shoot = true
@@ -43,6 +44,7 @@ func take_damage(amount):
 	emit_signal('health_changed', health *100/max_health)
 	if health <= 0:
 		explode()
+		emit_signal("dead")
 
 func explode():
 	$CollisionShape2D.disabled = true
@@ -57,3 +59,4 @@ func _on_GunTimer_timeout():
 
 func _on_Explosion_animation_finished():
 	queue_free()
+

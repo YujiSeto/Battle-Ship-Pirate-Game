@@ -17,3 +17,14 @@ func _on_Ship_shoot(bullet, _position, _direction):
 	var b = bullet.instance()
 	add_child(b)
 	b.start(_position, _direction)
+
+func _on_Player_dead():
+	get_tree().reload_current_scene()
+
+
+func _on_EnemyShip_dead():
+	$Paths/Path2D/PathFollow2D/Reward1.show()
+	
+
+func _on_EnemyShip_dead2():
+	$Paths/Path2D2/PathFollow2D/Reward1.show()
