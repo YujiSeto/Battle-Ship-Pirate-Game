@@ -23,8 +23,16 @@ func _on_Player_dead():
 
 
 func _on_EnemyShip_dead():
-	$Paths/Path2D/PathFollow2D/Reward1.show()
+	$Paths/Path2D/PathFollow2D/Reward.show()
 	
 
 func _on_EnemyShip_dead2():
-	$Paths/Path2D2/PathFollow2D/Reward1.show()
+	$Paths/Path2D2/PathFollow2D/Reward.show()
+
+
+func _on_GunTurret_dead():
+	pass # Replace with function body.
+
+
+func _on_EnemyShip_dead3():
+	$Paths/Path2D3/PathFollow2D/Reward.show()

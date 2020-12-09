@@ -1,6 +1,7 @@
 extends KinematicBody2D
 
 signal health_changed
+signal ammo_changed
 signal dead
 
 export (PackedScene) var Bullet
@@ -10,6 +11,9 @@ export (float) var gun_cooldown
 export (int) var max_health
 export (int) var max_bullets
 
+export (int) var max_ammo = 20
+export (int) var ammo = -1 setget set_ammo
+
 var velocity = Vector2()
 var can_shoot = true
 var alive = true
@@ -18,15 +22,17 @@ var health
 func _ready():
 	health = max_health
 	emit_signal('health_changed', health *100/max_health)
+	emit_signal('ammo_changed', ammo * 100/max_ammo)
 	$GunTimer.wait_time = gun_cooldown
 	
 func control(delta):
 	pass
-	
+
 signal shoot
 
 func shoot():
-	if can_shoot:
+	if can_shoot and ammo != 0:
+		self.ammo -= 1
 		can_shoot = false
 		$GunTimer.start()
 		var dir = Vector2(1, 0).rotated($Turret.global_rotation)
@@ -46,6 +52,11 @@ func take_damage(amount):
 		explode()
 		emit_signal("dead")
 
+func heal(amount):
+	health += amount
+	health = clamp(health, 0, max_health)
+	emit_signal('health_changed', health * 100/max_health)
+
 func explode():
 	$CollisionShape2D.disabled = true
 	alive = false
@@ -60,3 +71,8 @@ func _on_GunTimer_timeout():
 func _on_Explosion_animation_finished():
 	queue_free()
 
+func set_ammo(value):
+	if value > max_ammo:
+		value = max_ammo
+	ammo = value
+	emit_signal('ammo_changed', ammo * 100/max_ammo)

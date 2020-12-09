@@ -1,4 +1,4 @@
-[gd_scene load_steps=24 format=2]
+[gd_scene load_steps=27 format=2]
 
 [ext_resource path="res://terrain/terrain_tiles.tres" type="TileSet" id=1]
 [ext_resource path="res://Ships/Player.tscn" type="PackedScene" id=2]
@@ -6,6 +6,8 @@
 [ext_resource path="res://Ships/EnemyShip.tscn" type="PackedScene" id=4]
 [ext_resource path="res://ui/HUD.tscn" type="PackedScene" id=5]
 [ext_resource path="res://itens/Reward.tscn" type="PackedScene" id=6]
+[ext_resource path="res://Ships/GunTurret.tscn" type="PackedScene" id=7]
+[ext_resource path="res://itens/Pickup.tscn" type="PackedScene" id=8]
 
 [sub_resource type="SegmentShape2D" id=1]
 a = Vector2( 234.013, 1333.66 )
@@ -27,7 +29,7 @@ b = Vector2( -122.862, -723.661 )
 extents = Vector2( 85.5606, 86.1998 )
 
 [sub_resource type="RectangleShape2D" id=6]
-extents = Vector2( 156.481, 119.39 )
+extents = Vector2( 149.682, 119.39 )
 
 [sub_resource type="RectangleShape2D" id=7]
 extents = Vector2( 109.623, 144.184 )
@@ -64,6 +66,11 @@ _data = {
 [sub_resource type="Curve2D" id=17]
 _data = {
 "points": PoolVector2Array( 79.2854, -60.408, -79.2854, 60.408, 1545.81, 83.9606, -41.5305, -66.0712, 41.5305, 66.0712, 1542.03, 476.612, -50.9692, 30.204, 50.9692, -30.204, 1817.64, 495.49, -60.408, 37.755, 60.408, -37.755, 1881.83, 427.531, -56.6325, 43.4182, 56.6325, -43.4182, 2123.46, 427.531, 0, 0, 0, 0, 2191.42, 367.123, 73.6222, 64.1835, -73.6222, -64.1835, 2191.42, 99.0626, 58.5202, -37.755, -58.5202, 37.755, 1545.81, 83.9606 )
+}
+
+[sub_resource type="Curve2D" id=18]
+_data = {
+"points": PoolVector2Array( -64.6941, 56.7228, 64.6941, -56.7228, 2168, 1067, -27.8068, -64.713, 27.8068, 64.713, 2402, 1072, 34.878, -48.1011, -34.878, 48.1011, 2397, 1191, 61.264, 61.5617, -61.264, -61.5617, 2174, 1192, 0, 0, 0, 0, 2168, 1067 )
 }
 
 [node name="Map01" type="Node2D"]
@@ -109,7 +116,7 @@ position = Vector2( 223.14, 157.072 )
 shape = SubResource( 5 )
 
 [node name="Collision2" type="CollisionShape2D" parent="BackGround/Ground/Wall"]
-position = Vector2( 866.424, 448.168 )
+position = Vector2( 862.643, 449.424 )
 shape = SubResource( 6 )
 
 [node name="Collision3" type="CollisionShape2D" parent="BackGround/Ground/Wall"]
@@ -166,10 +173,14 @@ rotation = -3.08873
 
 [node name="EnemyShip" parent="Paths/Path2D/PathFollow2D" instance=ExtResource( 4 )]
 max_speed = 150
+gun_cooldown = 1.0
+ammo = 10
+turret_speed = 50.0
 
-[node name="Reward1" parent="Paths/Path2D/PathFollow2D" instance=ExtResource( 6 )]
+[node name="Reward" parent="Paths/Path2D/PathFollow2D" instance=ExtResource( 6 )]
 
 [node name="Path2D2" type="Path2D" parent="Paths"]
+position = Vector2( 2.66968, 0 )
 curve = SubResource( 17 )
 
 [node name="PathFollow2D" type="PathFollow2D" parent="Paths/Path2D2"]
@@ -178,20 +189,106 @@ rotation = 2.45802
 
 [node name="EnemyShip" parent="Paths/Path2D2/PathFollow2D" instance=ExtResource( 4 )]
 max_speed = 150
+gun_cooldown = 1.0
+turret_speed = 50.0
 
-[node name="Reward1" parent="Paths/Path2D2/PathFollow2D" instance=ExtResource( 6 )]
+[node name="Reward" parent="Paths/Path2D2/PathFollow2D" instance=ExtResource( 6 )]
 rotation = -2.98023e-08
-scale = Vector2( 1, 1 )
+
+[node name="Path2D3" type="Path2D" parent="Paths"]
+position = Vector2( -29.9357, -34.2717 )
+curve = SubResource( 18 )
+
+[node name="PathFollow2D" type="PathFollow2D" parent="Paths/Path2D3"]
+position = Vector2( 2168, 1067 )
+rotation = -0.702977
+
+[node name="EnemyShip" parent="Paths/Path2D3/PathFollow2D" instance=ExtResource( 4 )]
+max_speed = 150
+gun_cooldown = 1.0
+turret_speed = 50.0
+
+[node name="Reward" parent="Paths/Path2D3/PathFollow2D" instance=ExtResource( 6 )]
 
 [node name="HUD" parent="." instance=ExtResource( 5 )]
 
-[node name="Obstacle" type="Node2D" parent="."]
+[node name="GunTurret" parent="." instance=ExtResource( 7 )]
+position = Vector2( 1277.84, 1079.37 )
+gun_cooldown = 1.0
+max_health = 25
+turret_speed = 50.0
+
+[node name="GunTurret2" parent="." instance=ExtResource( 7 )]
+position = Vector2( 891.761, 105.058 )
+gun_cooldown = 1.0
+max_health = 25
+turret_speed = 50.0
+
+[node name="Items" type="Node2D" parent="."]
+
+[node name="Pickup" parent="Items" instance=ExtResource( 8 )]
+position = Vector2( 283.466, 73.9953 )
+
+[node name="Pickup2" parent="Items" instance=ExtResource( 8 )]
+position = Vector2( 733.85, 335.62 )
+
+[node name="Pickup3" parent="Items" instance=ExtResource( 8 )]
+position = Vector2( 1545.83, 893.408 )
+
+[node name="Pickup4" parent="Items" instance=ExtResource( 8 )]
+position = Vector2( 2421.24, 825.194 )
+type = 1
+
+[node name="Pickup5" parent="Items" instance=ExtResource( 8 )]
+position = Vector2( 1165.89, 634.531 )
+
+[node name="Pickup6" parent="Items" instance=ExtResource( 8 )]
+position = Vector2( 1966.29, 995.091 )
+type = 1
+
+[node name="Pickup7" parent="Items" instance=ExtResource( 8 )]
+position = Vector2( 2096.55, 328.716 )
+type = 1
+
+[node name="Pickup8" parent="Items" instance=ExtResource( 8 )]
+position = Vector2( 2196.6, 691.164 )
+
+[node name="Pickup9" parent="Items" instance=ExtResource( 8 )]
+position = Vector2( 1456.43, 688.167 )
+type = 1
+
+[node name="Pickup10" parent="Items" instance=ExtResource( 8 )]
+position = Vector2( 77.9911, 876.954 )
+type = 1
+
+[node name="Pickup11" parent="Items" instance=ExtResource( 8 )]
+position = Vector2( 182.873, 1026.78 )
+
+[node name="Pickup12" parent="Items" instance=ExtResource( 8 )]
+position = Vector2( 488.527, 835.001 )
+
+[node name="Pickup13" parent="Items" instance=ExtResource( 8 )]
+position = Vector2( 979.972, 337.563 )
+type = 1
+
+[node name="Pickup14" parent="Items" instance=ExtResource( 8 )]
+position = Vector2( 818.155, 1062.74 )
+type = 1
+[connection signal="ammo_changed" from="Player" to="HUD" method="update_ammo"]
 [connection signal="dead" from="Player" to="." method="_on_Player_dead"]
 [connection signal="health_changed" from="Player" to="HUD" method="update_healthbar"]
 [connection signal="shoot" from="Player" to="." method="_on_Ship_shoot"]
 [connection signal="dead" from="Paths/Path2D/PathFollow2D/EnemyShip" to="." method="_on_EnemyShip_dead"]
+[connection signal="health_changed" from="Paths/Path2D/PathFollow2D/EnemyShip" to="HUD" method="update_healthbar"]
 [connection signal="shoot" from="Paths/Path2D/PathFollow2D/EnemyShip" to="." method="_on_Ship_shoot"]
-[connection signal="body_entered" from="Paths/Path2D/PathFollow2D/Reward1" to="HUD" method="_on_Reward1_body_entered"]
+[connection signal="body_entered" from="Paths/Path2D/PathFollow2D/Reward" to="HUD" method="_on_Reward_body_entered"]
 [connection signal="dead" from="Paths/Path2D2/PathFollow2D/EnemyShip" to="." method="_on_EnemyShip_dead2"]
+[connection signal="health_changed" from="Paths/Path2D2/PathFollow2D/EnemyShip" to="HUD" method="update_healthbar"]
 [connection signal="shoot" from="Paths/Path2D2/PathFollow2D/EnemyShip" to="." method="_on_Ship_shoot"]
-[connection signal="body_entered" from="Paths/Path2D2/PathFollow2D/Reward1" to="HUD" method="_on_Reward1_body_entered"]
+[connection signal="body_entered" from="Paths/Path2D2/PathFollow2D/Reward" to="HUD" method="_on_Reward_body_entered"]
+[connection signal="dead" from="Paths/Path2D3/PathFollow2D/EnemyShip" to="." method="_on_EnemyShip_dead3"]
+[connection signal="health_changed" from="Paths/Path2D3/PathFollow2D/EnemyShip" to="HUD" method="update_healthbar"]
+[connection signal="shoot" from="Paths/Path2D3/PathFollow2D/EnemyShip" to="." method="_on_Ship_shoot"]
+[connection signal="body_entered" from="Paths/Path2D3/PathFollow2D/Reward" to="HUD" method="_on_Reward_body_entered"]
+[connection signal="shoot" from="GunTurret" to="." method="_on_Ship_shoot"]
+[connection signal="shoot" from="GunTurret2" to="." method="_on_Ship_shoot"]
