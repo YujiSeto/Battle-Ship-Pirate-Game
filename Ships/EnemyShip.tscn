@@ -72,5 +72,6 @@ region_rect = Rect2( 614, 466, 18, 39 )
 
 [node name="Explosion" parent="." index="11"]
 scale = Vector2( 1, 1 )
+[connection signal="health_changed" from="." to="UnitDisplay" method="update_healthbar"]
 [connection signal="body_entered" from="DetectRadius" to="." method="_on_DetectRadius_body_entered"]
 [connection signal="body_exited" from="DetectRadius" to="." method="_on_DetectRadius_body_exited"]
