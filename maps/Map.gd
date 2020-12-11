@@ -19,7 +19,7 @@ func _on_Ship_shoot(bullet, _position, _direction):
 	b.start(_position, _direction)
 
 func _on_Player_dead():
-	get_tree().reload_current_scene()
+	GLOBALS.restart()
 
 
 func _on_EnemyShip_dead():

@@ -47,6 +47,17 @@ func _physics_process(delta):
 	
 func take_damage(amount):
 	health -= amount
+	$Body.show()
+	$Body60Dmg.hide()
+	$Body25Dmg.hide()
+	if health < 60*100/max_health:
+		$Body.hide()
+		$Body60Dmg.show()
+		$Body25Dmg.hide()
+	if health < 25*100/max_health:
+		$Body.hide()
+		$Body60Dmg.hide()
+		$Body25Dmg.show()
 	emit_signal('health_changed', health *100/max_health)
 	if health <= 0:
 		explode()
@@ -55,6 +66,17 @@ func take_damage(amount):
 func heal(amount):
 	health += amount
 	health = clamp(health, 0, max_health)
+	$Body.show()
+	$Body60Dmg.hide()
+	$Body25Dmg.hide()
+	if health < 60:
+		$Body.hide()
+		$Body60Dmg.show()
+		$Body25Dmg.hide()
+	if health < 25:
+		$Body.hide()
+		$Body60Dmg.hide()
+		$Body25Dmg.show()
 	emit_signal('health_changed', health * 100/max_health)
 
 func explode():
@@ -62,6 +84,8 @@ func explode():
 	alive = false
 	$Turret.hide()
 	$Body.hide()
+	$Body60Dmg.hide()
+	$Body25Dmg.hide()
 	$Explosion.show()
 	$Explosion.play()
 

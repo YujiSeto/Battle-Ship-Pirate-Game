@@ -56,7 +56,7 @@ func _on_Reward_body_entered(body):
 	if count == 3:
 		$Margin/Container/Points8.show()
 		count = count + 1
-		get_tree().reload_current_scene()
+		GLOBALS.restart()
 		
 	if count == 2:
 		$Margin/Container/Points9.show()

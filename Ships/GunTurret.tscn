@@ -23,10 +23,25 @@ detect_radius = 500
 [node name="Body" parent="." index="0"]
 texture = ExtResource( 1 )
 
-[node name="CollisionShape2D" parent="." index="1"]
+[node name="Body60Dmg" parent="." index="1"]
+modulate = Color( 0.960784, 0.65098, 0.65098, 1 )
+texture = ExtResource( 1 )
+region_enabled = false
+
+[node name="Body25Dmg" parent="." index="2"]
+modulate = Color( 0.780392, 0.376471, 0.376471, 1 )
+texture = ExtResource( 1 )
+region_enabled = false
+
+[node name="CollisionShape2D" parent="." index="3"]
+visible = false
 shape = SubResource( 1 )
 
-[node name="Turret" parent="." index="2"]
+[node name="DetectRadius" type="Area2D" parent="." index="4"]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="DetectRadius" index="0"]
+
+[node name="Turret" parent="." index="5"]
 texture = ExtResource( 3 )
 region_enabled = true
 region_rect = Rect2( 408, 489, 29, 20 )
@@ -39,10 +54,6 @@ position = Vector2( 40, 0 )
 rotation = -1.5708
 texture = ExtResource( 3 )
 region_rect = Rect2( 614, 466, 18, 39 )
-
-[node name="DetectRadius" type="Area2D" parent="." index="4"]
-
-[node name="CollisionShape2D" type="CollisionShape2D" parent="DetectRadius" index="0"]
 
 [node name="UnitDisplay" parent="." index="7" instance=ExtResource( 6 )]
 [connection signal="health_changed" from="." to="UnitDisplay" method="update_healthbar"]
